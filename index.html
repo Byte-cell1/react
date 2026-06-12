@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Chat & Call App</title>
+<title>Members Portal</title>
 <style>
 :root{--navy:#0B1D3A;--gold:#D4AF37;--light:#F5F7FA;--green:#2ECC71;--red:#E74C3C}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Arial}
@@ -11,39 +11,38 @@ body{height:100vh;overflow:hidden;background:var(--light)}
 .screen{display:none;width:100%;height:100vh}
 .screen.active{display:flex;flex-direction:column}
 
-/* Login */
+/* Login/Signup */
 #loginScreen{justify-content:center;align-items:center;background:linear-gradient(135deg,var(--navy),#1a365d);padding:20px}
 .login-box{background:white;color:#333;padding:35px 25px;border-radius:16px;width:100%;max-width:380px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
-.login-box h2{color:var(--navy);margin-bottom:8px;font-size:26px}
+.login-box h2{color:var(--navy);margin-bottom:8px;font-size:28px}
 .login-box p{margin-bottom:20px;color:#666;font-size:14px}
 .login-box input{width:100%;padding:14px;margin:8px 0;border:2px solid #ddd;border-radius:8px;font-size:16px}
 .login-box button{width:100%;padding:15px;background:var(--navy);color:white;border:none;border-radius:8px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:12px}
 .login-box button:active{transform:scale(0.98)}
 .error{color:var(--red);font-size:13px;margin-top:8px;display:none;text-align:left}
+.toggle-link{margin-top:15px;font-size:14px;color:#666}
+.toggle-link span{color:var(--navy);font-weight:bold;cursor:pointer;text-decoration:underline}
 
-/* Main App */
-#appScreen{flex-direction:row}
-.sidebar{width:280px;background:var(--navy);color:white;padding:15px;overflow-y:auto;transition:transform 0.3s}
-.sidebar h3{margin-bottom:15px;color:var(--gold);font-size:16px}
-.user-card{padding:14px;background:rgba(255,255,255,0.1);border-radius:8px;margin-bottom:8px;cursor:pointer;font-size:15px}
-.user-card:active{background:rgba(255,255,255,0.2)}
-.user-card.active{background:var(--gold);color:var(--navy);font-weight:bold}
+/* Dashboard */
+#dashboardScreen{background:var(--light)}
+.header{background:var(--navy);color:white;padding:18px;display:flex;justify-content:space-between;align-items:center}
+.header h2{color:var(--gold);font-size:20px}
+.logout-btn{background:var(--red);border:none;color:white;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:14px}
+.logout-btn:active{opacity:0.8}
 
-.chat-area{flex:1;display:flex;flex-direction:column;background:white}
-.chat-header{padding:16px;border-bottom:1px solid #ddd;background:var(--navy);color:white;display:flex;justify-content:space-between;align-items:center}
-.chat-header span{font-size:16px;font-weight:500;overflow:hidden;text-overflow:ellipsis;flex:1;margin-left:10px}
-.call-btn{background:var(--green);border:none;color:white;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:15px}
+.content{flex:1;overflow-y:auto;padding:20px}
+.welcome-card{background:white;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.welcome-card h3{color:var(--navy);margin-bottom:8px}
+.welcome-card p{color:#666;font-size:14px}
+
+.members-section{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.members-section h3{color:var(--navy);margin-bottom:15px;font-size:18px}
+.member-card{padding:15px;background:#f8f9fa;border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;border-left:4px solid var(--gold)}
+.member-info{flex:1}
+.member-email{font-weight:bold;color:#333;font-size:15px}
+.member-status{font-size:12px;color:var(--green);margin-top:3px}
+.call-btn{background:var(--green);border:none;color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:bold}
 .call-btn:active{opacity:0.8}
-
-.messages{flex:1;overflow-y:auto;padding:15px;background:#fafafa;-webkit-overflow-scrolling:touch}
-.msg{max-width:75%;margin-bottom:10px;padding:12px 15px;border-radius:12px;font-size:15px;line-height:1.4;word-wrap:break-word}
-.msg.me{background:var(--navy);color:white;margin-left:auto;border-bottom-right-radius:4px}
-.msg.other{background:#e9e9e9;margin-right:auto;border-bottom-left-radius:4px}
-
-.input-area{padding:12px;border-top:1px solid #ddd;display:flex;gap:8px;background:white}
-.input-area input{flex:1;padding:14px;border:2px solid #ddd;border-radius:25px;font-size:15px;outline:none}
-.input-area button{padding:0 20px;background:var(--navy);color:white;border:none;border-radius:25px;cursor:pointer;font-weight:bold;font-size:15px}
-.input-area button:active{transform:scale(0.95)}
 
 /* Call Modal */
 #callModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:999}
@@ -56,50 +55,41 @@ body{height:100vh;overflow:hidden;background:var(--light)}
 .call-btns button:active{transform:scale(0.9)}
 .btn-accept{background:var(--green)}
 .btn-reject{background:var(--red)}
-
-.menu-btn{display:none;background:none;border:none;color:white;font-size:24px;padding:0}
-
-/* Mobile */
-@media(max-width:768px){
-.sidebar{position:absolute;left:0;top:0;height:100%;z-index:20;transform:translateX(-100%)}
-.sidebar.active{transform:translateX(0)}
-.menu-btn{display:block}
-.msg{max-width:85%}
-.login-box{padding:30px 20px}
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN / SIGNUP SCREEN -->
 <div id="loginScreen" class="screen active">
   <div class="login-box">
-    <h2>Chat & Call</h2>
-    <p>Use 2 different emails to test</p>
+    <h2>Members Portal</h2>
+    <p id="formTitle">Sign In to your account</p>
     <input type="email" id="email" placeholder="Enter email">
     <input type="password" id="password" placeholder="Password - min 6 chars">
-    <button onclick="handleAuth()">Sign In / Sign Up</button>
+    <button onclick="handleAuth()" id="authBtn">Login</button>
     <div class="error" id="errorMsg"></div>
-    <p style="font-size:12px;margin-top:15px;color:#999">Open in Incognito for 2nd user</p>
+    <div class="toggle-link">
+      <span id="toggleText" onclick="toggleMode()">Create new account</span>
+    </div>
   </div>
 </div>
 
-<!-- APP SCREEN -->
-<div id="appScreen" class="screen">
-  <div class="sidebar" id="sidebar">
-    <h3>Online Users</h3>
-    <div id="userList">Loading users...</div>
+<!-- DASHBOARD SCREEN -->
+<div id="dashboardScreen" class="screen">
+  <div class="header">
+    <h2>Members Portal</h2>
+    <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
-
-  <div class="chat-area">
-    <div class="chat-header">
-      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-      <span id="chatWith">Select a user</span>
-      <button class="call-btn" id="callBtn" onclick="startCall()" style="display:none">📞 Call</button>
+  
+  <div class="content">
+    <div class="welcome-card">
+      <h3>Welcome, <span id="userEmail"></span></h3>
+      <p>You are logged in. Click Call to start voice chat with any member.</p>
     </div>
-    <div class="messages" id="messages"></div>
-    <div class="input-area">
-      <input type="text" id="msgInput" placeholder="Type message..." onkeypress="if(event.key==='Enter') sendMsg()">
-      <button onclick="sendMsg()">Send</button>
+
+    <div class="members-section">
+      <h3>All Members</h3>
+      <div id="membersList">Loading members...</div>
     </div>
   </div>
 </div>
@@ -123,7 +113,7 @@ body{height:100vh;overflow:hidden;background:var(--light)}
 <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
 
 <script>
-// ===== ALL KEYS ARE FILLED =====
+// ===== YOUR KEYS FILLED =====
 const firebaseConfig = {
   apiKey: "AIzaSyCY75Whxe2i9ITdxWctl-LwmCxPugv9pk0",
   authDomain: "chatcall-app-99bde.firebaseapp.com",
@@ -134,21 +124,16 @@ const firebaseConfig = {
   appId: "1:565789395277:web:02c9fb0bb869873b208f04"
 };
 const AGORA_APP_ID = '90d7e54be9104767a344ad2b344e0a0d';
-// ================================================
+// =============================
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
 let currentUser = null;
-let selectedUser = null;
-let selectedEmail = null;
+let isLoginMode = true;
 let agoraClient = null;
 let localAudioTrack = null;
-
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('active');
-}
 
 function showError(msg){
   const errorDiv = document.getElementById('errorMsg');
@@ -156,7 +141,15 @@ function showError(msg){
   errorDiv.style.display = 'block';
 }
 
-// SIGN IN / SIGN UP
+function toggleMode(){
+  isLoginMode = !isLoginMode;
+  document.getElementById('formTitle').textContent = isLoginMode ? 'Sign In to your account' : 'Create new account';
+  document.getElementById('authBtn').textContent = isLoginMode ? 'Login' : 'Sign Up';
+  document.getElementById('toggleText').textContent = isLoginMode ? 'Create new account' : 'Already have account? Login';
+  showError('');
+}
+
+// LOGIN / SIGNUP
 function handleAuth(){
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
@@ -171,19 +164,15 @@ function handleAuth(){
     return;
   }
 
-  auth.signInWithEmailAndPassword(email, password)
-.then(cred => loginSuccess(cred.user))
-.catch(err => {
-      if(err.code === 'auth/user-not-found'){
-        auth.createUserWithEmailAndPassword(email, password)
-      .then(cred => loginSuccess(cred.user))
-      .catch(e => showError(e.message));
-      } else if(err.code === 'auth/wrong-password'){
-        showError('Wrong password');
-      } else {
-        showError(err.message);
-      }
-    });
+  if(isLoginMode){
+    auth.signInWithEmailAndPassword(email, password)
+    .then(cred => loginSuccess(cred.user))
+    .catch(err => showError(err.message));
+  } else {
+    auth.createUserWithEmailAndPassword(email, password)
+    .then(cred => loginSuccess(cred.user))
+    .catch(err => showError(err.message));
+  }
 }
 
 function loginSuccess(user){
@@ -195,86 +184,55 @@ function loginSuccess(user){
   });
 
   document.getElementById('loginScreen').classList.remove('active');
-  document.getElementById('appScreen').classList.add('active');
-  loadUsers();
+  document.getElementById('dashboardScreen').classList.add('active');
+  document.getElementById('userEmail').textContent = user.email;
+  loadMembers();
   listenForIncomingCalls();
 }
 
-// LOAD USERS
-function loadUsers(){
+function logout(){
+  if(currentUser){
+    db.ref('users/' + currentUser.uid).update({online: false});
+  }
+  auth.signOut();
+  location.reload();
+}
+
+// LOAD MEMBERS
+function loadMembers(){
   db.ref('users').on('value', snap => {
-    const list = document.getElementById('userList');
+    const list = document.getElementById('membersList');
     list.innerHTML = '';
     snap.forEach(child => {
-      if(child.key!== currentUser.uid){
+      if(child.key !== currentUser.uid){
         const data = child.val();
         const div = document.createElement('div');
-        div.className = 'user-card';
-        div.textContent = data.email.split('@')[0];
-        div.onclick = () => selectUser(child.key, data.email, div);
+        div.className = 'member-card';
+        div.innerHTML = `
+          <div class="member-info">
+            <div class="member-email">${data.email}</div>
+            <div class="member-status">${data.online ? '🟢 Online' : '⚫ Offline'}</div>
+          </div>
+          <button class="call-btn" onclick="startCall('${child.key}', '${data.email}')">📞 Call</button>
+        `;
         list.appendChild(div);
       }
     });
-    if(list.innerHTML === '') list.innerHTML = '<p style="opacity:0.6;font-size:13px">No other users yet. Open in 2nd browser.</p>';
+    if(list.innerHTML === '') list.innerHTML = '<p style="opacity:0.6">No other members yet. Share link for others to join.</p>';
   });
 }
 
-function selectUser(uid, email, element){
-  selectedUser = uid;
-  selectedEmail = email;
-  document.getElementById('chatWith').textContent = email;
-  document.getElementById('callBtn').style.display = 'block';
-  document.querySelectorAll('.user-card').forEach(c => c.classList.remove('active'));
-  element.classList.add('active');
-  if(window.innerWidth < 768) toggleSidebar();
-  loadMessages();
-}
-
-// SEND MESSAGE
-function sendMsg(){
-  const input = document.getElementById('msgInput');
-  const text = input.value.trim();
-  if(!text ||!selectedUser) return;
-
-  const chatId = [currentUser.uid, selectedUser].sort().join('_');
-  db.ref('chats/' + chatId).push({
-    from: currentUser.uid,
-    text: text,
-    time: Date.now()
-  });
-  input.value = '';
-}
-
-// LOAD MESSAGES
-function loadMessages(){
-  const chatId = [currentUser.uid, selectedUser].sort().join('_');
-  db.ref('chats/' + chatId).on('value', snap => {
-    const box = document.getElementById('messages');
-    box.innerHTML = '';
-    snap.forEach(child => {
-      const m = child.val();
-      const div = document.createElement('div');
-      div.className = 'msg ' + (m.from === currentUser.uid? 'me' : 'other');
-      div.textContent = m.text;
-      box.appendChild(div);
-    });
-    box.scrollTop = box.scrollHeight;
-  });
-}
-
-// ===== VOICE CALL =====
-async function startCall(){
-  if(!selectedUser) return;
-
-  const callId = [currentUser.uid, selectedUser].sort().join('_');
+// VOICE CALL
+async function startCall(uid, email){
+  const callId = [currentUser.uid, uid].sort().join('_');
   document.getElementById('callModal').classList.add('active');
   document.getElementById('callStatus').textContent = 'Calling...';
-  document.getElementById('callUser').textContent = selectedEmail;
+  document.getElementById('callUser').textContent = email;
   document.getElementById('acceptBtn').style.display = 'none';
 
   await db.ref('calls/' + callId).set({
     from: currentUser.uid,
-    to: selectedUser,
+    to: uid,
     status: 'calling',
     time: Date.now()
   });
@@ -283,33 +241,16 @@ async function startCall(){
   listenForCallAnswer(callId);
 }
 
-function listenForCallAnswer(callId){
-  db.ref('calls/' + callId).on('value', snap => {
-    if(!snap.exists()) return;
-    const data = snap.val();
-    if(data.status === 'accepted'){
-      document.getElementById('callStatus').textContent = 'Connected';
-      document.getElementById('acceptBtn').style.display = 'none';
-    }
-    if(data.status === 'ended'){
-      endCall();
-    }
-  });
-}
-
 async function initAgora(channelName){
   try{
     agoraClient = AgoraRTC.createClient({mode: 'rtc', codec: 'vp8'});
     await agoraClient.join(AGORA_APP_ID, channelName, null, currentUser.uid);
-
     localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
     await agoraClient.publish(localAudioTrack);
 
     agoraClient.on('user-published', async (user, mediaType) => {
       await agoraClient.subscribe(user, mediaType);
-      if(mediaType === 'audio'){
-        user.audioTrack.play();
-      }
+      if(mediaType === 'audio') user.audioTrack.play();
     });
   }catch(e){
     alert('Call error: ' + e.message);
@@ -317,7 +258,18 @@ async function initAgora(channelName){
   }
 }
 
-// INCOMING CALL
+function listenForCallAnswer(callId){
+  db.ref('calls/' + callId).on('value', snap => {
+    if(!snap.exists()) return;
+    const data = snap.val();
+    if(data.status === 'accepted'){
+      document.getElementById('callStatus').textContent = 'Connected ✓';
+      document.getElementById('acceptBtn').style.display = 'none';
+    }
+    if(data.status === 'ended') endCall();
+  });
+}
+
 function listenForIncomingCalls(){
   db.ref('calls').orderByChild('to').equalTo(currentUser.uid).on('child_added', snap => {
     const data = snap.val();
@@ -325,7 +277,7 @@ function listenForIncomingCalls(){
       window.currentCallId = snap.key;
       document.getElementById('callModal').classList.add('active');
       document.getElementById('callStatus').textContent = 'Incoming Call';
-      document.getElementById('callUser').textContent = 'User is calling...';
+      document.getElementById('callUser').textContent = 'Member is calling...';
       document.getElementById('acceptBtn').style.display = 'inline-block';
     }
   });
@@ -346,7 +298,7 @@ function endCall(){
 }
 
 auth.onAuthStateChanged(user => {
-  if(user &&!currentUser){
+  if(user && !currentUser){
     loginSuccess(user);
   }
 });
