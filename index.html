@@ -11,7 +11,6 @@ body{height:100vh;overflow:hidden;background:var(--light)}
 .screen{display:none;width:100%;height:100vh}
 .screen.active{display:flex;flex-direction:column}
 
-/* Login/Signup */
 #loginScreen{justify-content:center;align-items:center;background:linear-gradient(135deg,var(--navy),#1a365d);padding:20px}
 .login-box{background:white;color:#333;padding:35px 25px;border-radius:16px;width:100%;max-width:380px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.2)}
 .login-box h2{color:var(--navy);margin-bottom:8px;font-size:28px}
@@ -23,7 +22,6 @@ body{height:100vh;overflow:hidden;background:var(--light)}
 .toggle-link{margin-top:15px;font-size:14px;color:#666}
 .toggle-link span{color:var(--navy);font-weight:bold;cursor:pointer;text-decoration:underline}
 
-/* Dashboard */
 #dashboardScreen{background:var(--light)}
 .header{background:var(--navy);color:white;padding:18px;display:flex;justify-content:space-between;align-items:center}
 .header h2{color:var(--gold);font-size:20px}
@@ -44,7 +42,6 @@ body{height:100vh;overflow:hidden;background:var(--light)}
 .call-btn{background:var(--green);border:none;color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:bold}
 .call-btn:active{opacity:0.8}
 
-/* Call Modal */
 #callModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:none;justify-content:center;align-items:center;z-index:999}
 #callModal.active{display:flex}
 .call-box{background:var(--navy);color:white;padding:40px 30px;border-radius:20px;text-align:center;min-width:300px}
@@ -59,7 +56,6 @@ body{height:100vh;overflow:hidden;background:var(--light)}
 </head>
 <body>
 
-<!-- LOGIN / SIGNUP SCREEN -->
 <div id="loginScreen" class="screen active">
   <div class="login-box">
     <h2>Members Portal</h2>
@@ -74,7 +70,6 @@ body{height:100vh;overflow:hidden;background:var(--light)}
   </div>
 </div>
 
-<!-- DASHBOARD SCREEN -->
 <div id="dashboardScreen" class="screen">
   <div class="header">
     <h2>Members Portal</h2>
@@ -94,7 +89,6 @@ body{height:100vh;overflow:hidden;background:var(--light)}
   </div>
 </div>
 
-<!-- CALL MODAL -->
 <div id="callModal">
   <div class="call-box">
     <h2 id="callStatus">Calling...</h2>
@@ -106,14 +100,13 @@ body{height:100vh;overflow:hidden;background:var(--light)}
   </div>
 </div>
 
-<!-- FIREBASE + AGORA CDN -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
 
 <script>
-// ===== YOUR KEYS FILLED =====
+// ===== YOUR KEYS UPDATED =====
 const firebaseConfig = {
   apiKey: "AIzaSyCY75Whxe2i9ITdxWctl-LwmCxPugv9pk0",
   authDomain: "chatcall-app-99bde.firebaseapp.com",
@@ -123,7 +116,7 @@ const firebaseConfig = {
   messagingSenderId: "565789395277",
   appId: "1:565789395277:web:02c9fb0bb869873b208f04"
 };
-const AGORA_APP_ID = '90d7e54be9104767a344ad2b344e0a0d';
+const AGORA_APP_ID = 'd864d9be289e4235b7d3b98ecdcf02b8';
 // =============================
 
 firebase.initializeApp(firebaseConfig);
@@ -149,7 +142,6 @@ function toggleMode(){
   showError('');
 }
 
-// LOGIN / SIGNUP
 function handleAuth(){
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
@@ -198,7 +190,6 @@ function logout(){
   location.reload();
 }
 
-// LOAD MEMBERS
 function loadMembers(){
   db.ref('users').on('value', snap => {
     const list = document.getElementById('membersList');
@@ -222,7 +213,6 @@ function loadMembers(){
   });
 }
 
-// VOICE CALL
 async function startCall(uid, email){
   const callId = [currentUser.uid, uid].sort().join('_');
   document.getElementById('callModal').classList.add('active');
